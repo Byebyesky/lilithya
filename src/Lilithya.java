@@ -21,6 +21,8 @@ public class Lilithya
     GUI graphicalInterface = null;
     boolean noGUI = true;
 
+    String token = "";  //Your token here
+
     Lilithya(String[] args) {
         for(int i = 0; i < args.length; i++) {
             if(args[i].equals("-gui")) {
@@ -44,7 +46,7 @@ public static void main(String[] arguments) throws Exception {
             Lilithya lilly = new Lilithya(arguments);
             
             JDA jda = new JDABuilder(AccountType.BOT)
-                        .setToken("NDY2MjM1NTAxMjY4MDQxNzg4.DiZqSQ.tDz6ZtNkn84uuoswfvCu8sTsr7o")  //The token of the account that is logging in.
+                        .setToken(lilly.token)  //The token of the account that is logging in.
                         .addEventListener(lilly.listener)  //An instance of a class that will handle events.
                         .buildBlocking();  //There are 2 ways to login, blocking vs async. Blocking guarantees that JDA will be completely loaded.
             if(!lilly.noGUI) lilly.graphicalInterface.createGuiElements();
