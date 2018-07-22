@@ -18,29 +18,36 @@ public class Lilithya
     Tools tool = new Tools();
     MyListener listener = new MyListener();
     Action actions = new Action(listener);
-    GUI graphicalInterface = new GUI(actions);
+    GUI graphicalInterface = null;
+    boolean noGUI = false;
 
-    public void initialize(String[] args) {
-        System.out.println("Startup date: " + tool.getCurrentTime());
+    Lilithya(String[] args) {
         for(int i = 0; i < args.length; i++) {
+            if(args[i].equals("-nogui")) {
+                System.out.println("Starting in NOGUI-mode!");
+                noGUI = true;
+            }
             if(args[i].equals("-log")) {
                 listener.logToggle();
             }
         }
+        if(!noGUI) {
+            graphicalInterface = new GUI(this.actions);
+        }
         System.out.println("System Initialized!");
+        System.out.println("Startup date: " + tool.getCurrentTime());
     }
 
 public static void main(String[] arguments) throws Exception {
         try
         {
-            Lilithya lilly = new Lilithya();
+            Lilithya lilly = new Lilithya(arguments);
             
             JDA jda = new JDABuilder(AccountType.BOT)
                         .setToken("NDY2MjM1NTAxMjY4MDQxNzg4.DiZqSQ.tDz6ZtNkn84uuoswfvCu8sTsr7o")  //The token of the account that is logging in.
                         .addEventListener(lilly.listener)  //An instance of a class that will handle events.
                         .buildBlocking();  //There are 2 ways to login, blocking vs async. Blocking guarantees that JDA will be completely loaded.
-            lilly.initialize(arguments);
-            lilly.graphicalInterface.createGuiElements();
+            if(!lilly.noGUI) lilly.graphicalInterface.createGuiElements();
 
             Runnable r1 = new Cli(lilly.actions);
             Thread t1 = new Thread(r1);
