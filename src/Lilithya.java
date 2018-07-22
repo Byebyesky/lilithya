@@ -19,13 +19,13 @@ public class Lilithya
     MyListener listener = new MyListener();
     Action actions = new Action(listener);
     GUI graphicalInterface = null;
-    boolean noGUI = false;
+    boolean noGUI = true;
 
     Lilithya(String[] args) {
         for(int i = 0; i < args.length; i++) {
-            if(args[i].equals("-nogui")) {
-                System.out.println("Starting in NOGUI-mode!");
-                noGUI = true;
+            if(args[i].equals("-gui")) {
+                System.out.println("Starting in GUI-mode!");
+                noGUI = false;
             }
             if(args[i].equals("-log")) {
                 listener.logToggle();
